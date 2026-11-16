@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Employee Directory
 
 This is my submission for the Full Stack Developer assignment. It's a small app where you can add employees, edit or delete them, and search through the list by name.
@@ -46,7 +45,3 @@ DELETE method to Delete An existing Employee from the Table
 - `email` has a unique constraint in the database, so duplicates are blocked even if someone skips the frontend checks.
 - There's an index on `name` because that's the column search filters on.
 - The layout switches to a card view on smaller screens so the table stays readable on a phone.
-=======
-# Employee-Directory
-Employee directory app with React + TypeScript, Node.js/Express and MySQL. Supports add, edit, delete, search and pagination.
->>>>>>> 20a3baf96861a372821be10a84342def5fa7f060
