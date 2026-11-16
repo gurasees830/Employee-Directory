@@ -1,52 +1,61 @@
-<<<<<<< HEAD
 # Employee Directory
 
-This is my submission for the Full Stack Developer assignment. It's a small app where you can add employees, edit or delete them, and search through the list by name.
+A small app to add, edit, delete and search employees. I built it for the Full Stack Developer assignment.
 
-I used React with TypeScript (Vite) for the frontend, Node.js with Express for the API, and MySQL to store the data.
-
-## How it's organised
-
-
-backend/
-  schema.sql              creates the database and table, plus some sample rows
-  src/index.js            express setup
-  src/db.js               mysql connection pool
-  src/routes/employees.js all the employee routes
-frontend/
-  src/App.tsx
-  src/api/employees.ts    axios calls to the backend
-  src/components/         form, table and pagination
-
+Tech used: React + TypeScript (Vite), Axios, Node.js with Express, MySQL
 
 ## Running it locally
 
-You'll need Node.js 18 or newer and MySQL 8.
+You'll need Node.js 18+ and MySQL 8.
 
+1. Database
 
-run  : mysql -u root -p < backend/schema.sql. This creates the employee_directory database and the employees table, and inserts the 7 sample rows.
+Run the schema file from the project folder:
 
+```
+mysql -u root -p < backend/schema.sql
+```
 
-This creates the `employee_directory` database with an `employees` table and a few sample employees, so the page isn't empty the first time you open it.
+This creates the employee_directory database and an employees table with a few sample rows.
 
-## What the GET, POST, PUT, METHOD DO And Why I am Using Them:
+2. Backend
 
-I have Also Used GET, POST , PUT And DELETE in the Application As asked in the Task Requirements For Backend.
+```
+cd backend
+npm install
+```
 
-GET method To Show The Employee on The Table
-POST to Add An Employee To the Table
-PUT to Update An Existing Employee on/From the Table
-DELETE method to Delete An existing Employee from the Table 
+Copy .env.example to .env and add your MySQL password, then:
 
+```
+npm run dev
+```
 
+It runs on http://localhost:5000.
 
-## A few notes
+3. Frontend
 
-- I did search and pagination on the backend rather than in the browser, so it still works fine if the list gets big.
-- `email` has a unique constraint in the database, so duplicates are blocked even if someone skips the frontend checks.
-- There's an index on `name` because that's the column search filters on.
-- The layout switches to a card view on smaller screens so the table stays readable on a phone.
-=======
-# Employee-Directory
-Employee directory app with React + TypeScript, Node.js/Express and MySQL. Supports add, edit, delete, search and pagination.
->>>>>>> 20a3baf96861a372821be10a84342def5fa7f060
+In a new terminal:
+
+```
+cd frontend
+npm install
+npm run dev
+```
+
+Open http://localhost:5173. If your backend isn't on port 5000, copy .env.example to .env in the frontend folder and change VITE_API_URL.
+
+## API
+
+GET /employees - get the employees
+POST /employees - add an employee
+PUT /employees/{id} - update an employee
+DELETE /employees/{id} - delete an employee
+
+GET /employees also takes search, page and limit, for example /employees?search=rahul&page=1&limit=5.
+
+POST and PUT expect name, email and role. All three are required and the email must be unique.
+
+## Extras
+
+I also added search by name, pagination (5 per page) and a layout that works on mobile.
