@@ -23,7 +23,7 @@ A note on "experience": Ágaetis was founded in December 2018, so experience in 
 
 ## Running it on your machine
 
-You need Node.js 18 or newer and MySQL 8 installed and running.
+You need Node.js 20.19 or newer (Node 22 LTS is a safe pick, Vite won't start on older versions) and MySQL 8 (8.0.16 or newer, for the check constraints) installed and running. You can check your version with `node -v`.
 
 **1. Get the code**
 
@@ -39,7 +39,7 @@ cd backend
 npm install
 ```
 
-Copy the example settings file to a real one. On Windows that's `copy .env.example .env`, on Mac or Linux `cp .env.example .env`. Then open `.env` and fill in your MySQL password (`DB_PASSWORD`). You can also pick the admin login there with `ADMIN_EMAIL` and `ADMIN_PASSWORD`. If you leave those out, the app creates a demo admin for you, which is `admin@example.com` with the password `Admin@123`.
+Copy the example settings file to a real one. On Windows that's `copy .env.example .env`, on Mac or Linux `cp .env.example .env`. Then open `.env` and fill in your MySQL password (`DB_PASSWORD`). The admin login is set there too. Out of the box it's `admin@example.com` with the password `Admin@123`, and you can change `ADMIN_EMAIL` and `ADMIN_PASSWORD` to whatever you like before the next step.
 
 **3. Create the database**
 
@@ -89,6 +89,7 @@ These all run from the backend folder.
 
 - Seeing "Can't reach the server" on the login page means the backend isn't running, so check the first terminal.
 - If `npm run db:seed` says access denied, the `DB_USER` or `DB_PASSWORD` in `backend/.env` doesn't match your MySQL setup.
+- After 10 wrong passwords the login locks for 15 minutes, which is there to slow down guessing. Restarting the backend clears it straight away.
 - If you get port errors, something else is already using 5000 or 5173. Close it, or change `PORT` in the backend `.env`.
 - If you had the first version of this project on your machine, `npm run db:setup` upgrades the old database in place and keeps your existing rows.
 
@@ -118,6 +119,14 @@ Everything under `/employees` needs an admin session, so sign in first and keep 
 ```
 curl -c cookies.txt -H "Content-Type: application/json" -d '{"email":"admin@example.com","password":"Admin@123"}' http://localhost:5000/auth/login
 curl -b cookies.txt http://localhost:5000/employees
+```
+
+That's for Git Bash, Mac or Linux. In Windows PowerShell the quoting is different, so use this instead:
+
+```
+$s = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+Invoke-RestMethod -Method Post -Uri http://localhost:5000/auth/login -WebSession $s -ContentType "application/json" -Body '{"email":"admin@example.com","password":"Admin@123"}'
+Invoke-RestMethod -Uri http://localhost:5000/employees -WebSession $s
 ```
 
 The endpoints from the assignment:

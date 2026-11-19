@@ -27,6 +27,10 @@ function tooManyAttempts(ip) {
 }
 
 function recordFailure(ip) {
+  // drop expired entries now and then so the map can't grow forever
+  if (failures.size > 1000) {
+    for (const [key, value] of failures) if (value.resetAt < Date.now()) failures.delete(key);
+  }
   const entry = failures.get(ip);
   if (!entry || entry.resetAt < Date.now()) failures.set(ip, { count: 1, resetAt: Date.now() + WINDOW_MS });
   else entry.count++;
