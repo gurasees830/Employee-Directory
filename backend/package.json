@@ -5,7 +5,12 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "db:setup": "node src/setup-db.js",
+    "db:seed": "node src/setup-db.js --seed",
+    "db:reset": "node src/setup-db.js --reset",
+    "admin:reset": "node src/setup-db.js --reset-admin",
+    "test": "node --test"
   },
   "author": "Gurasees Singh Bhogal",
   "license": "ISC",

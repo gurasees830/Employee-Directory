@@ -1,5 +1,5 @@
 const mysql = require("mysql2/promise");
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST || "localhost",
@@ -9,6 +9,11 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME || "employee_directory",
   waitForConnections: true,
   connectionLimit: 10,
+  // Return DATE columns as "YYYY-MM-DD" strings instead of JS Dates, so a joining
+  // date can never shift by a day because of the server's timezone.
+  dateStrings: ["DATE"],
+  // DECIMAL columns come back as numbers rather than strings.
+  decimalNumbers: true,
 });
 
 module.exports = pool;
